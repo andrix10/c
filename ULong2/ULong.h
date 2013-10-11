@@ -79,7 +79,7 @@ public:
 
 	bool operator<= (const ULong& ) const;
 	bool operator<= (unsigned long long) const;
-	friend bool operator<= (unsigned long, const ULong&);
+	friend bool operator<= (unsigned long long, const ULong&);
 
 	bool operator>= (const ULong& ) const;
 	bool operator>= (unsigned long long) const;
