@@ -1,3 +1,9 @@
+/***********************
+Andrei Kuzmiankov
+CISP400 MW 5:30-6:50pm
+ULong.cpp
+October 2, 2013
+***********************/
 #ifndef _ULong_H_
 #define _ULong_H_
 #include <iostream>
