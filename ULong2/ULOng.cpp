@@ -57,23 +57,33 @@ ULong::ULong(const ULong& r)
 
 void ULong::_initialize()
 {
-	_num_digits=1;
+	//_num_digits=1;
     for(unsigned i = 0; i < PRECISION; i++)
 	{   
 		_number[i] = '0';
 	}   
-	//_num_digits=1;
+	_num_digits=1;
 }
 
-
-ULong& ULong::operator=(const ULong& r)
+ostream& operator<< ( ostream& os, const ULong& ul)
 {
-	_num_digits = r._num_digits;
-	for(unsigned i=0;i<PRECISION;i++)
-		_number[i] = r._number[i];
-	return *this;
+	for ( int i = ul._num_digits-1; i>=0; i-- )
+	{
+		//if ( i != ul._num_digits-1 && i%3 == 2 )
+		//os << ",";
+		os << ul._number[i];
+	}
+	return os;
 }
 
+istream& operator>> ( istream& is, ULong& ul)
+{
+	char temp[PRECISION];
+	is >> temp;
+	//_no_comma(temp); //remove commas from temp
+	ul = ULong(temp);
+	return is;
+}
 
 ULong& ULong::operator+=(const ULong& l)
 {
@@ -176,6 +186,21 @@ ULong& ULong::operator-=(const ULong& l)
 	return *this;
 }
 
+ULong ULong::operator- (const ULong& l) const
+{
+    return ULong(*this)-=l;
+}
+
+ULong ULong::operator- (unsigned long long l) const
+{
+    return *this - ULong(l);
+}
+
+ULong operator- (unsigned long long l, const ULong& r)
+{
+    return ULong(l) - r;
+}
+
 ULong& ULong::operator*=(const ULong& r)
 {
     if ( r._num_digits == 1 && r._number[0] < '2')
@@ -208,6 +233,21 @@ ULong& ULong::operator*=(const ULong& r)
 
 }
 
+ULong ULong::operator* (const ULong& l) const
+{
+    return ULong(*this)*=l;
+}
+
+ULong ULong::operator* (unsigned long long l) const
+{
+    return (*this) * ULong(l);
+}
+
+ULong operator* (unsigned long long l, const ULong& r)
+{
+    return ULong(l) * r;
+}
+
 ULong& ULong::operator/=(const ULong& l)
 {
     if ( l._num_digits == 1 && l._number[0] < '2')
@@ -234,6 +274,20 @@ ULong& ULong::operator/=(const ULong& l)
     }
     *this = cnt;
 	return *this;
+}
+ULong ULong::operator/ (const ULong& l) const
+{
+	return ULong(*this)/=l;
+}
+
+ULong ULong::operator/ (unsigned long long l) const
+{
+	return (*this) / ULong(l);
+}
+
+ULong operator/ (unsigned long long l, const ULong& r)
+{
+	return ULong(l)/r;
 }
 
 ULong& ULong::operator%=( const ULong& l)
@@ -263,88 +317,9 @@ ULong& ULong::operator%=( const ULong& l)
         *this-=l;	
     }   
 	*this=copy2-(copy*cnt);
+	//cout<<cnt<<" ";
+	//cout<<*this<<"\n";
     return *this;
-}
-
-ostream& operator<< ( ostream& os, const ULong& ul)
-{
-	for ( int i = ul._num_digits-1; i>=0; i-- )
-	{
-		//if ( i != ul._num_digits-1 && i%3 == 2 )
-		//os << ",";
-		os << ul._number[i];
-	}
-	return os;
-}
-
-istream& operator>> ( istream& is, ULong& ul)
-{
-	char temp[PRECISION];
-	is >> temp;
-	//_no_comma(temp); //remove commas from temp
-	ul = ULong(temp);
-	return is;
-}
-
-ULong ULong::operator+ (const ULong& r) const
-{
-	return ULong(*this)+=r;
-}
-
-ULong ULong::operator+ (unsigned long long l) const
-{
-	return (*this) + ULong(l);
-}
-
-ULong operator+ (unsigned long long l, const ULong& r)
-{
-	return ULong(l) + r;
-}
-
-ULong ULong::operator- (const ULong& l) const
-{
-    return ULong(*this)-=l;
-}
-
-ULong ULong::operator- (unsigned long long l) const
-{
-    return *this - ULong(l);
-}
-
-ULong operator- (unsigned long long l, const ULong& r)
-{
-    return ULong(l) - r;
-}
-
-ULong ULong::operator* (const ULong& l) const
-{
-    return ULong(*this)*=l;
-}
-
-ULong ULong::operator* (unsigned long long l) const
-{
-    return (*this) * ULong(l);
-}
-
-ULong operator* (unsigned long long l, const ULong& r)
-{
-    return ULong(l) * r;
-}
-
-
-ULong ULong::operator/ (const ULong& l) const
-{
-	return ULong(*this)/=l;
-}
-
-ULong ULong::operator/ (unsigned long long l) const
-{
-	return (*this) / ULong(l);
-}
-
-ULong operator/ (unsigned long long l, const ULong& r)
-{
-	return ULong(l)/r;
 }
 
 ULong ULong::operator% (const ULong& l) const
@@ -391,6 +366,54 @@ ULong& ULong::operator-- () //pre
 	return *this;
 }
 
+bool ULong::operator< (const ULong& l) const
+{
+	return !(*this>l);
+}
+
+bool ULong::operator< (unsigned long long l) const
+{
+	return (*this) < ULong(l);
+}
+
+bool operator< (unsigned long long l, const ULong& r)
+{
+	return ULong(l) < r;
+}
+
+bool ULong::operator> (const ULong& l) const
+{
+	bool greater=true;
+    unsigned k = _num_digits;
+    if (_num_digits < l._num_digits) k=l._num_digits;
+    for(unsigned i = 0; i < k; i++)
+    {
+        //cout<< _num_digits;
+        //cout<<endl<<_number[i]<<endl<<l._number[i];
+        if(_number[i] < l._number[i]) greater=false;   
+        else if(_number[i]!=l._number[i]) greater=true;
+    }   
+	return greater;
+}
+
+bool ULong::operator> (unsigned long long l) const
+{
+	return (*this) > ULong(l);
+}
+
+bool operator> (unsigned long long l, const ULong& r)
+{
+	return ULong(l)>r;
+}
+	
+ULong& ULong::operator=(const ULong& r)
+{
+	_num_digits = r._num_digits;
+	for(unsigned i=0;i<PRECISION;i++)
+		_number[i] = r._number[i];
+	return *this;
+}
+
 bool ULong::operator==(const ULong& r) const
 {
 	if(_num_digits != r._num_digits) return false;
@@ -411,21 +434,6 @@ bool operator==(unsigned long long l,const ULong& r)
 	return ULong(l)==r;
 }
 
-bool ULong::operator< (const ULong& l) const
-{
-	return !(*this>l);
-}
-
-bool ULong::operator< (unsigned long long l) const
-{
-	return (*this) < ULong(l);
-}
-
-bool operator< (unsigned long long l, const ULong& r)
-{
-	return ULong(l) < r;
-}
-
 bool ULong::operator!=(const ULong& r) const
 {
 	return !(*this== r);
@@ -441,27 +449,19 @@ bool operator!=(unsigned long long l,const ULong& r)
 	return ULong(l) != r;
 }
 
-bool ULong::operator> (const ULong& l) const
+ULong ULong::operator+ (const ULong& r) const
 {
-	bool greater=true;
-    unsigned k = _num_digits;
-    if (_num_digits < l._num_digits) k=l._num_digits;
-    for(unsigned i = 0; i < k; i++)
-    {
-        if(_number[i] < l._number[i]) greater=false;   
-        else if(_number[i]!=l._number[i]) greater=true;
-    }   
-	return greater;
+	return ULong(*this)+=r;
 }
 
-bool ULong::operator> (unsigned long long l) const
+ULong ULong::operator+ (unsigned long long l) const
 {
-	return (*this) > ULong(l);
+	return (*this) + ULong(l);
 }
 
-bool operator> (unsigned long long l, const ULong& r)
+ULong operator+ (unsigned long long l, const ULong& r)
 {
-	return ULong(l)>r;
+	return ULong(l) + r;
 }
 
 bool ULong::operator<= (const ULong& l) const
@@ -486,6 +486,8 @@ bool ULong::operator>= (const ULong& l) const
     if (_num_digits < l._num_digits) k=l._num_digits;
     for(unsigned i = 0; i < k; i++)
     {   
+        //cout<< _num_digits;
+        //cout<<endl<<_number[i]<<endl<<l._number[i];
         if(_number[i] < l._number[i]) greater=false;   
         else greater=true;
     }   
