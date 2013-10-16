@@ -136,7 +136,7 @@ ULong& ULong::operator+=(const ULong& l)
 
 ULong& ULong::operator-=(const ULong& l)
 {
-	if ( (l._num_digits > _num_digits) || (l._num_digits==_num_digits && (l._number[_num_digits-1] > _number[_num_digits-1]) ))
+	if ( (l._num_digits > _num_digits) || ( (l._number[_num_digits-1] > _number[_num_digits-1]) ))
     {
         _initialize();
         return *this;
@@ -167,23 +167,22 @@ ULong& ULong::operator-=(const ULong& l)
         {
             decrease = true;
         }
-		else decrease = false;
     }
     if ( decrease )
     {
         _num_digits--;
     }
-	if(_num_digits>1)
-	{
-		while(temp._number[_num_digits-1]=='0')
-		{
-			_num_digits--;
-		}
-	}
     for ( unsigned i=0; i<PRECISION; i++ )
     {
         _number[i] = temp._number[i];
     }
+	if(_num_digits>1)
+	{
+		while(_number[_num_digits-1]=='0')
+		{
+			_num_digits--;
+		}
+	}
 	return *this;
 }
 
@@ -339,24 +338,31 @@ ULong operator% (unsigned long long l, const ULong& r)
 }
 
 
-ULong ULong::operator++ (int) //post
+ULong ULong::operator++ (int l) //post
 {
-	//use copy constr
-	return *this;
+	ULong tmp=*this;
+	ULong one("1");
+	*this+=one;
+	return tmp;
 }
 
-ULong ULong::operator-- (int) //post
-{
-	return *this;
+ULong ULong::operator-- (int l) //post
+{	
+	ULong tmp=*this;
+	ULong one("1");
+	*this-=one;
+	return tmp;
 }
 
 ULong& ULong::operator++ () //pre
 {
+	*this+=ULong("1");
 	return *this;
 }
 
 ULong& ULong::operator-- () //pre
-{
+{	
+	*this-=ULong("1");
 	return *this;
 }
 

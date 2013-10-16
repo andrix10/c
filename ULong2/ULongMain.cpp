@@ -1,7 +1,6 @@
-/***********************
-Alex Vasilenko
-CISP400, MW, 5:30-6:50pm
-ULong
+/**********************
+Andrei Kuzmiankov
+CISP400 MW5:30-6:50pm
 October 2, 2013
 ***********************/
 #include <iostream>
@@ -12,62 +11,28 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-	if(argc ==  4)
-	{
-		ULong lhs(argv[1]);
-		ULong rhs(argv[3]);
-		switch (argv[2][0])
-		{
-		case '+':
-			cout<<lhs+rhs;
-			cout<<"\n";
-			break;
-		case '-':
-			cout<<lhs-rhs;
-			cout<<"\n";
-			break; //glitchy, * is wildcard for windows and linux
-		case 'x':
-		case 'X':
-			cout<<lhs*rhs;
-			cout<<"\n";
-			break;
-		case '/':
-			cout<<lhs/rhs;
-			cout<<"\n";
-			break;
-		case 'g':
-			if(lhs>rhs) cout<<"greater\n";
-			else cout<<"less\n";
-			break;
-		case 'l':
-			if(lhs<rhs) cout<<"less\n";
-		    else cout<<"greater\n";
-			break;
-		case 'e':
-			if(lhs==rhs) cout<<"equals\n";
-			else cout<<"doesn't equal\n";
-			break;
-		case 'de':
-			if(lhs!=rhs) cout<<"doesn't equal\n";
-			else cout<<"equals\n";
-			break;
-		case 'm':
-			cout << lhs%rhs<<"\n";
-			break;
-		default:
-			cout << "Unknown opporator!\n";
-		}
-	}
-	else
-	{
-		cout << "ERROR: wrong format.\n";
-		cout << "[number] [operator] [number]\n";
-		cout << "allowed operators:\n";
-		cout << "[ + ] for plus\n";
-		cout << "[ - ] for minus\n";
-		cout << "[ x  X ] for multiply\n";
-		cout << "[ / ] for divide\n";
-	}
-	return 0;
+	ULong rhs;
+	ULong lhs;
+	cout<<"Please enter 2 numbers: \n";
+	cin>>lhs>>rhs;
+	cout<<"addition: ";
+	cout<<lhs+rhs<<"\n";
+	cout<<"subtraction: ";
+	cout<<lhs-rhs<<"\n";
+	cout<<"multiplication: ";
+	cout<<lhs*rhs<<"\n";
+	cout<<"division: ";
+	cout<<lhs/rhs<<"\n";
+	cout<<"mod: ";
+	cout<<lhs%rhs<<"\n";
+	if(lhs>rhs) cout<<lhs<<" greater then "<<rhs<<"\n";
+	if(lhs<rhs) cout<<lhs<<" less then "<<rhs<<"\n";
+	if(lhs==rhs) cout<<lhs<<" equals "<<rhs<<"\n";
+	if(lhs!=rhs) cout<<lhs<<" does not equal "<<rhs<<"\n";
+	if(lhs>=rhs) cout<<lhs<<" greater or equals "<<rhs<<"\n";
+	if(lhs<=rhs) cout<<lhs<<" less or equals "<<rhs<<"\n";
+	cout<<lhs++<<" "<<lhs<<" post increment"<<"\n";
+	cout<<lhs--<<" "<<lhs<<" post decrement"<<"\n";
+	cout<<++rhs<<" pre increment"<<"\n";
+	cout<<--rhs<<" pre decrement"<<"\n";
 }
-
