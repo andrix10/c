@@ -20,17 +20,20 @@ int main(int argc, char** argv)
 		{
 		case '+':
 			cout<<lhs+rhs;
+			cout<<"\n";
 			break;
 		case '-':
 			cout<<lhs-rhs;
-			break;
-		case '*': //glitchy, * is wildcard for windows and linux
+			cout<<"\n";
+			break; //glitchy, * is wildcard for windows and linux
 		case 'x':
 		case 'X':
 			cout<<lhs*rhs;
+			cout<<"\n";
 			break;
 		case '/':
 			cout<<lhs/rhs;
+			cout<<"\n";
 			break;
 		case 'g':
 			if(lhs>rhs) cout<<"greater\n";
@@ -47,6 +50,9 @@ int main(int argc, char** argv)
 		case 'de':
 			if(lhs!=rhs) cout<<"doesn't equal\n";
 			else cout<<"equals\n";
+			break;
+		case 'm':
+			cout << lhs%rhs<<"\n";
 			break;
 		default:
 			cout << "Unknown opporator!\n";

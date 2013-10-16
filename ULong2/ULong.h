@@ -8,7 +8,7 @@ October 2, 2013
 #define _ULong_H_
 #include <iostream>
 using namespace std;
-const unsigned PRECISION = 10000;
+const unsigned PRECISION = 10;
 class ULong
 {
 	char

@@ -57,11 +57,12 @@ ULong::ULong(const ULong& r)
 
 void ULong::_initialize()
 {
-	_num_digits=1;
+	//_num_digits=1;
     for(unsigned i = 0; i < PRECISION; i++)
 	{   
 		_number[i] = '0';
 	}   
+	_num_digits=1;
 }
 
 ostream& operator<< ( ostream& os, const ULong& ul)
@@ -135,7 +136,7 @@ ULong& ULong::operator+=(const ULong& l)
 
 ULong& ULong::operator-=(const ULong& l)
 {
-if ( (l._num_digits > _num_digits) || (l._number[_num_digits-1] > _number[_num_digits-1]) )
+	if ( (l._num_digits > _num_digits) || (l._num_digits==_num_digits && (l._number[_num_digits-1] > _number[_num_digits-1]) ))
     {
         _initialize();
         return *this;
@@ -151,26 +152,34 @@ if ( (l._num_digits > _num_digits) || (l._number[_num_digits-1] > _number[_num_d
             temp._number[i]+=10;
             borrow = 1;
             if(_number[i] < (l._number[i]+borrow)&& i == _num_digits-1)
-
-                {   
-                    _initialize();
-                    return *this;
-                } 
+			{   
+            	_initialize();
+                return *this;
+			}
         }
         else
         {
             borrow = 0;
         }
-		if ( i == _num_digits-1 && temp._number[i] == 0 && _num_digits > 1 )
+
+		temp._number[i] += '0';
+		if ( i == _num_digits-1 && temp._number[i] == '0' && _num_digits > 0 )
         {
             decrease = true;
         }
-        temp._number[i] += '0';
+		else decrease = false;
     }
     if ( decrease )
     {
         _num_digits--;
     }
+	if(_num_digits>1)
+	{
+		while(temp._number[_num_digits-1]=='0')
+		{
+			_num_digits--;
+		}
+	}
     for ( unsigned i=0; i<PRECISION; i++ )
     {
         _number[i] = temp._number[i];
@@ -282,6 +291,75 @@ ULong operator/ (unsigned long long l, const ULong& r)
 	return ULong(l)/r;
 }
 
+ULong& ULong::operator%=( const ULong& l)
+{
+    if ( l._num_digits == 1 && l._number[0] < '2')
+    {   
+        if ( l._number[0] == '0' )
+        {   
+            cout << "ERROR: division by zero"<<endl;
+            cin.get();
+            exit(1);
+        }   
+        return *this;
+    }   
+    if ( (l._num_digits > _num_digits)||(l._number[_num_digits-1] > _number[_num_digits-1]) )
+    {   
+        _initialize();
+        return *this;
+    }   
+    ULong cnt;
+    ULong one("1");
+	ULong copy=l;
+	ULong copy2=*this;
+    while ( *this>l || *this==l )
+    {   
+        cnt+=one;
+        *this-=l;	
+    }   
+	*this=copy2-(copy*cnt);
+	//cout<<cnt<<" ";
+	//cout<<*this<<"\n";
+    return *this;
+}
+
+ULong ULong::operator% (const ULong& l) const
+{
+    return ULong(*this)%=l;
+}
+
+ULong ULong::operator% (unsigned long long l) const
+{
+    return (*this) % ULong(l);
+}
+
+ULong operator% (unsigned long long l, const ULong& r)
+{
+    return ULong(l)%r;
+}
+
+
+ULong ULong::operator++ (int) //post
+{
+	//use copy constr
+	return *this;
+}
+
+ULong ULong::operator-- (int) //post
+{
+	return *this;
+}
+
+ULong& ULong::operator++ () //pre
+{
+	return *this;
+}
+
+ULong& ULong::operator-- () //pre
+{
+	return *this;
+}
+
 bool ULong::operator< (const ULong& l) const
 {
 	return !(*this>l);
@@ -380,3 +458,43 @@ ULong operator+ (unsigned long long l, const ULong& r)
 	return ULong(l) + r;
 }
 
+bool ULong::operator<= (const ULong& l) const
+{
+	return !(*this>=l);
+}
+
+bool ULong::operator<= (unsigned long long l) const
+{
+	return *this<=ULong(l);
+}
+
+bool operator<= (unsigned long long l, const ULong& r)
+{
+	return ULong(l)<=r;
+}
+
+bool ULong::operator>= (const ULong& l) const
+{
+	bool greater=true;
+    unsigned k = _num_digits;
+    if (_num_digits < l._num_digits) k=l._num_digits;
+    for(unsigned i = 0; i < k; i++)
+    {   
+        //cout<< _num_digits;
+        //cout<<endl<<_number[i]<<endl<<l._number[i];
+        if(_number[i] < l._number[i]) greater=false;   
+        else greater=true;
+    }   
+    return greater;
+
+}
+
+bool ULong::operator>= (unsigned long long l) const
+{
+	return *this >= ULong(l);
+}
+
+bool operator>= (unsigned long long l, const ULong& r)
+{
+	return ULong(l)>=r;
+}
