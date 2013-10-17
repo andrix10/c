@@ -1,7 +1,0 @@
-ERROR: wrong format.
-[number] [operator] [number]
-allowed operators:
-[ + ] for plus
-[ - ] for minus
-[ x  X ] for multiply
-[ / ] for divide
