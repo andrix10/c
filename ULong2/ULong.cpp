@@ -2,7 +2,7 @@
 Andrei Kuzmiankov
 CISP400 MW 5:30-6:50pm
 ULong.cpp
-October 2, 2013
+October 12, 2013
 ***********************/
 #include <iostream>
 #include <cstdlib>
@@ -32,11 +32,20 @@ ULong::ULong ( const char* c )
 		_number[index] = c[_num_digits-(index+1)];
 		index++;
 	}
+	
+	if(_num_digits>1)
+	{
+		while(_number[_num_digits-1]=='0')
+		{
+			_num_digits--;
+		}
+	}
 }
 
 ULong::ULong(unsigned long long n )
 {
 	_initialize();
+	if(n==0) return;
 	unsigned ind = 0;
 	_num_digits = 0;
 	while ( n > 0 )
@@ -126,7 +135,7 @@ ULong& ULong::operator+=(const ULong& l)
 
 ULong& ULong::operator-=(const ULong& l)
 {
-	if ( (l._num_digits > _num_digits) || ( (l._number[_num_digits-1] > _number[_num_digits-1]) ))
+	if ( (l._num_digits > _num_digits) || ( l._num_digits == _num_digits && (l._number[_num_digits-1] > _number[_num_digits-1]) ))
     {
         _initialize();
         return *this;
@@ -166,6 +175,7 @@ ULong& ULong::operator-=(const ULong& l)
     {
         _number[i] = temp._number[i];
     }
+	
 	if(_num_digits>1)
 	{
 		while(_number[_num_digits-1]=='0')
@@ -248,9 +258,8 @@ ULong& ULong::operator%=( const ULong& l)
         }   
         return *this;
     }   
-    if ( (l._num_digits > _num_digits)||(l._number[_num_digits-1] > _number[_num_digits-1]) )
+    if ( (l._num_digits > _num_digits)|| *this < l )
     {   
-        _initialize();
         return *this;
     }   
     ULong cnt;

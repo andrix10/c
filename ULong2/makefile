@@ -5,3 +5,5 @@ ULongMain.o: ULongMain.cpp ULong.cpp ULong.h
 ULong.o: ULong.cpp ULong.h
 	g++ -Wall -pedantic ULong.cpp -c
 
+clean:
+	rm *.o main
