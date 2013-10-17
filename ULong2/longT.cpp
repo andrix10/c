@@ -11,8 +11,11 @@ int main()
 	ULong num2(r);
 	cout << num-r << endl;
 	cout << l-r<<endl;
-	cout << num + r<<endl;
-	
+	cout << num - num2<<endl;
+	if(num != num2) cout<<"!=\n";
+	else cout<<"==\n";
+	if(num != l)cout<<"!= ull";
+	else cout<<"== ull\n";	
 }
 
 

@@ -32,14 +32,6 @@ ULong::ULong ( const char* c )
 		_number[index] = c[_num_digits-(index+1)];
 		index++;
 	}
-	
-	if(_num_digits>1)
-	{
-		while(_number[_num_digits-1]=='0')
-		{
-			_num_digits--;
-		}
-	}
 }
 
 ULong::ULong(unsigned long long n )
@@ -53,13 +45,6 @@ ULong::ULong(unsigned long long n )
 		_number[ind++] = n%10 + '0';
 		n /= 10;
 		_num_digits ++;
-	}
-	if(_num_digits>1)
-	{
-		while(_number[_num_digits-1]=='0')
-		{
-			_num_digits--;
-		}
 	}
 }
 
@@ -81,6 +66,11 @@ void ULong::_initialize()
 	//_num_digits=1;
 }
 
+void ULong::_set_num_digits()
+{
+	_num_digits = PRECISION-1;
+	while (_number[_num_digits] == '0' && _num_digits > 1) _num_digits--;
+}
 
 ULong& ULong::operator=(const ULong& r)
 {
@@ -146,18 +136,19 @@ ULong& ULong::operator-=(const ULong& l)
     {
         _initialize();
         return *this;
-    }
+    }	
     bool decrease = false;
     ULong temp;
     char borrow = 0;
     for ( unsigned i=0; i<PRECISION; i++)
     {
+		decrease=false;
         temp._number[i] = ((_number[i]-'0') - ((l._number[i]-'0') + borrow));
         if(_number[i] < (l._number[i]+borrow))
         {
             temp._number[i]+=10;
             borrow = 1;
-            if(_number[i] < (l._number[i]+borrow)&& i == _num_digits-1)
+            if(_number[i] < (l._number[i]+borrow) && i == _num_digits-1)
 			{   
             	_initialize();
                 return *this;
@@ -167,28 +158,27 @@ ULong& ULong::operator-=(const ULong& l)
         {
             borrow = 0;
         }
-
+		//cout<<i<<" "<<_num_digits<<endl;
 		temp._number[i] += '0';
-		if ( i == _num_digits-1 && temp._number[i] == '0' && _num_digits > 0 )
+		if ( i == _num_digits-1 && temp._number[i] == '0' && _num_digits > 1 )
         {
             decrease = true;
         }
+		
+    	if ( decrease )
+    	{
+        	_num_digits--;
+    	}
     }
-    if ( decrease )
-    {
-        _num_digits--;
-    }
+
     for ( unsigned i=0; i<PRECISION; i++ )
     {
         _number[i] = temp._number[i];
     }
-	
-	if(_num_digits>1)
+	//cout<<_num_digits<<"after"<<endl;
+	while(_number[_num_digits-1]=='0' && _num_digits>1)
 	{
-		while(_number[_num_digits-1]=='0')
-		{
 			_num_digits--;
-		}
 	}
 	return *this;
 }
@@ -324,7 +314,7 @@ ULong ULong::operator- (const ULong& l) const
 
 ULong ULong::operator- (unsigned long long l) const
 {
-    return *this - ULong(l);
+    return (*this - ULong(l));
 }
 
 ULong operator- (unsigned long long l, const ULong& r)
@@ -453,7 +443,8 @@ bool operator< (unsigned long long l, const ULong& r)
 
 bool ULong::operator!=(const ULong& r) const
 {
-	return !(*this== r);
+	if(*this==r) return false;
+	else return true;
 }
 
 bool ULong::operator!=(unsigned long long l) const
