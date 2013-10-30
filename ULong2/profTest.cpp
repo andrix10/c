@@ -29,12 +29,9 @@ int main ()
 				unsigned long long diff = (j >= i)? j-i : 0;
 				ulj = (j == 0)? ULong("0") : ULong(j);
 				ulj -= uli;
-				
 				ULong uldiff = (diff == 0)? ULong("0") : ULong(diff);
 				if ( ulj != uldiff )
 				{
-					
-					cout<< ulj << " "<<uli<<endl;
 					cout << "Error sub" << endl;
 					cout << "j: " << j << " i: " << i << endl
 						<< "ulj: " << ulj << " uli: " << uli << endl
