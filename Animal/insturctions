@@ -1,0 +1,55 @@
+CISP 400 C++ Programming
+Inheritance . 2013 David E. Fox
+For this project you will start with a base class that will represent animals in a zoo: Animal.h and Animal.o. I will provide this base class and the object code1 needed to link it to your code.
+From this generic type you will inherit derived classes:
+1) Mammal
+	. Body temperature: double
+	. Functions to return and update Body temperature.
+	. Boolean function: is body temperature is in range.
+2) Reptile
+	. Environment-Type: water or land
+	. Functions to return and update Environment-Type
+	From these you will inherit derived classes:
+a) Mammal
+i) Elephant
+	. Diet-type: Herbivore
+	. Feed-type: Hay
+	. Body temp: 97-98 deg
+	. Weight-in-pounds: double (12000 . 15000)
+	. Functions to return and update Weight-in-pounds
+	. Boolean function: is body weight in range.
+ii) Skunk
+	. Diet-type: Omnivore
+	. Feed-type: grubs and grass shoots
+	. Body temp: 95 - 97 deg.
+	. De-scented: bool
+	. Functions to return and update De-scented
+1 DO NOT change either of these . DO NOT write Animal.cpp
+b) Reptile
+i) Python
+	. Diet-type: Carnivore
+	. Feed-type: live mice
+	. Environment type: land
+	. Length-in-feet: double (15 . 23)
+	. Functions to return and update Length-in-feet
+	. Boolean function: length is in range
+ii) Crocodilia
+	. Diet-type: Carnivore
+	. Feed-type: raw-meat
+	. Environment type: water
+	. Subgroup: Croc-type enum {
+	CrocTypeUnknown, Crocodile, Alligator,
+	Caiman, Gharial }
+	. Functions to return and update Croc-type
+I will give you:
+3) Bird
+	. Can-it-fly: bool
+	. Functions to return and update Can-it-fly
+From Bird I will provide:
+i) Eagle
+	. Diet-type: Carnivore
+	. Feed-type: raw meat
+	. Endangered status: bool
+	. Functions to return and update endangered status: bool.
+We will discuss this in class to help to focus these classes.
+Please note: we will not have any rattle snakes in our zoo.
