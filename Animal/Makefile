@@ -29,4 +29,4 @@ reptile.o: reptile.cpp reptile.h animal.o
 	g++ -pedantic -Wall -c reptile.cpp
 
 clean:
-	rm main main.o bird.o eagle.o reptile.o mammal.o
+	rm main main.o bird.o mammal.o reptile.o eagle.o elephant.o skunk.o python.o crocodilia.o
