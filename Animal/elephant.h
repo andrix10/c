@@ -3,7 +3,7 @@
 using namespace std;
 
 
-class Eagle : public  Mammal
+class Elephant : public  Mammal
 {
 	double weight;
 
@@ -15,12 +15,12 @@ public:
 	Elephant  ( const Elephant& );
 	~Elephant  ( );
 
- 	Elephant & operator= ( const Elephant& );
+ 	Elephant& operator= ( const Elephant& );
 
   	double get_weight()const;
   	void set_weight(double);
 	bool weight_range()const;
-	bool temp_range() const;
+	bool temp_range()const;
   	
 	void Display()const;
 	void Feed()const;

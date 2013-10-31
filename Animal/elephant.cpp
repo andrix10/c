@@ -13,7 +13,7 @@ Elephant::Elephant ( const char* name )
 
 Elephant::Elephant ( const char* n, const GenderType& gt,
                double fc, double lf, double t, double w)
-:Mammal(n,gt,fc,lf,Herbivore,Hay,)
+:Mammal(n,gt,fc,lf,Herbivore,Hay,94)
 {
 	weight = (w<0)?0:w;
 }
@@ -21,7 +21,7 @@ Elephant::Elephant ( const char* n, const GenderType& gt,
 Elephant::Elephant( const Elephant& e)
 :Mammal(e)
 {
-	weight = e.weight
+	weight = e.weight;
 }
 
 Elephant::~Elephant ( ) { }
@@ -47,12 +47,12 @@ bool Elephant::weight_range()const
 }
 bool Elephant::temp_range() const
 {
-	return get_temperture()>=97 && get_temperature <= 98;
+	return get_temp()>=97 && get_temp() <= 98;
 }
 
 void Elephant::Display()const
 {
-  Bird::Display();
+  Mammal::Display();
   cout << "Weight: "<<weight<<endl;;
 }
 
@@ -63,7 +63,7 @@ void Elephant::Feed() const
 		<<"Repeat until bin is full";
 }
 
-void Elephant::CageMaintenance()const
+void Elephant::CageMaintance()const
 {
   cout << "Put the elephant into the inclosed pen" << endl
        << "Get a really big shovel" << endl

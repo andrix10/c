@@ -47,8 +47,8 @@ enum GenderType {GenderUnknown, Female, Male};
 class Animal
 {
    char*			_name;
-   GenderType		        _gender;
-   double		        _feeding_cycle; //FC
+   GenderType		_gender;
+   double		    _feeding_cycle; //FC
    double			_last_feeding;  //LF
    DietType			_diet;
    FeedType			_feed;

@@ -1,3 +1,5 @@
+#include <iostream>
+#include "animal.h"
 #include "mammal.h"
 
 Mammal::Mammal ( )
@@ -30,22 +32,22 @@ Mammal::Mammal ( const Mammal& m)
 
 Mammal::~Mammal ( ) { }
 
-Mammal& Mammal::operator= ( const Mammal& m)
+Mammal& Mammal::operator= (const Mammal& m)
 {
-    Mammal::operator=(m);
+    Animal::operator=(m);
 	temp = m.temp;
 	//range = b.range;
     return *this;
 }
 
-double Mammal::get_temp() const
-{
-	return temp;
-}
-
 void Mammal::set_temp(double tp)
 {
 	temp = tp;
+}
+
+double Mammal::get_temp() const
+{
+	return temp;
 }
 
 /*bool Bird::CanFly ( ) const
@@ -56,11 +58,10 @@ void Bird::CanFly ( bool cf )
 {
   can_fly = cf;
 }
-*/
 
+*/
 void Mammal::Display() const
 {
   Animal::Display();
   cout<<"Temperature: "<<temp<<endl;
-}                                                                                                                                     1,2           Top
-
+}
